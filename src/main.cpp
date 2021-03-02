@@ -1,6 +1,6 @@
-#include <fmt/core.h>
 #include <cstdlib>
-#include <sleepy_discord.h>
+#include <fmt/core.h>
+#include <sleepy_discord/sleepy_discord.h>
 
 class MyClientClass : public SleepyDiscord::DiscordClient {
 public:

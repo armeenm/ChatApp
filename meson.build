@@ -39,16 +39,6 @@ websocketpp = dependency('websocketpp', include_type: 'system')
 asio = dependency('asio', include_type: 'system')
 opus = dependency('opus', include_type: 'system')
 
-### Sleepy-Discord ###
-
-sd_flags = [
-  '-DNONEXISTENT_UWEBSOCKETS=1',
-  '-DEXISTENT_WEBSOCKETPP=1',
-  '-DEXISTENT_OPUS=1',
-  '-DEXISTENT_ASIO=1',
-  '-DEXISTENT_CPR=1'
-]
-
 comp = meson.get_compiler('cpp')
 if comp.get_argument_syntax() == 'msvc'
   ignore_warns = '/w'
@@ -68,22 +58,15 @@ else
   )
 endif
 
-cmake = import('cmake')
-sd_cmake_opts = cmake.subproject_options()
-sd_cmake_opts.add_cmake_defines({'ONLY_SLEEPY_DISCORD': true})
-sd_cmake_opts.append_compile_args('cpp', sd_flags, ignore_warns)
+### Sleepy-Discord ###
 
-sd_proj = cmake.subproject('sleepy-discord', options: sd_cmake_opts)
-sd_dep = declare_dependency(
-  compile_args: sd_flags + [cpr.get_variable(pkgconfig: 'cflags')],
-  link_args: [cpr.get_variable(pkgconfig: 'libs')],
-  dependencies: sd_proj.dependency('sleepy-discord', include_type: 'system')
-)
+cp_proj = subproject('sleepy-discord')
+cp_dep = cp_proj.get_variable('cp_dep')
 
 ### Bot ###
 
 executable('bot',
   'src/main.cpp',
-  dependencies: [fmt, openssl, cpr, websocketpp, asio, opus, sd_dep],
+  dependencies: [fmt, openssl, cpr, websocketpp, asio, opus, cp_dep],
   install: true
 )
