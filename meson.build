@@ -12,6 +12,26 @@ project('ChatApp',
   ]
 )
 
+if get_option('use_conan')
+  conan = find_program('conan')
+
+  if get_option('buildtype').startswith('release')
+    conan_bt = 'build_type=Release'
+  else
+    conan_bt = 'build_type=Debug'
+  endif
+
+  r = run_command(conan,
+    'install', meson.current_source_dir(),
+    '-if', meson.current_build_dir(),
+    '-s', conan_bt,
+    '--build=missing')
+
+  if r.returncode() != 0
+    error('Failed to install dependencies with Conan')
+  endif
+endif
+
 fmt = dependency('fmt', include_type: 'system')
 openssl = dependency('openssl', include_type: 'system')
 cpr = dependency('cpr', include_type: 'system')
@@ -61,26 +81,6 @@ sd_dep = declare_dependency(
 )
 
 ### Bot ###
-
-if get_option('use_conan')
-  conan = find_program('conan')
-
-  if get_option('buildtype').startswith('release')
-    conan_bt = 'build_type=Release'
-  else
-    conan_bt = 'build_type=Debug'
-  endif
-
-  r = run_command(conan,
-    'install', meson.current_source_dir(),
-    '-if', meson.current_build_dir(),
-    '-s', conan_bt,
-    '--build=missing')
-
-  if r.returncode() != 0
-    error('Failed to install dependencies with Conan')
-  endif
-endif
 
 executable('bot',
   'src/main.cpp',

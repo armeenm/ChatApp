@@ -1,0 +1,4 @@
+[wrap-git]
+directory = sleepy-discord
+source_url = https://github.com/FRC1984/sleepy-discord
+revision = head
