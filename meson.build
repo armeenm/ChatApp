@@ -61,8 +61,12 @@ endif
 
 ### Bot ###
 
-executable('bot',
+bot_tgt = executable('bot',
   'src/main.cpp',
   dependencies: [fmt, openssl, cpr, websocketpp, asio, opus, sleepy_discord],
   install: true
 )
+
+if comp.get_id() == 'msvc'
+  alias_target('bot', bot_tgt)
+endif
