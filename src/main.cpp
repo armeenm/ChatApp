@@ -12,11 +12,10 @@ public:
 };
 
 int main() {
-  try {
-    auto const token = std::getenv("DISCORD_BOT_TOKEN");
-    MyClientClass client(token, SleepyDiscord::USER_CONTROLED_THREADS);
-    client.run();
-  } catch (std::exception const& e) {
-    fmt::print("Caught exception: {}\n", e.what());
-  }
+  fmt::print("Starting bot...\n");
+  auto const token = std::getenv("DISCORD_BOT_TOKEN");
+  fmt::print("Bot token: {}\n", token);
+
+  auto client = MyClientClass{token, SleepyDiscord::USER_CONTROLED_THREADS};
+  client.run();
 }
