@@ -38,7 +38,7 @@ cpr = dependency('cpr', include_type: 'system')
 websocketpp = dependency('websocketpp', include_type: 'system')
 asio = dependency('asio', include_type: 'system')
 opus = dependency('opus', include_type: 'system')
-sleepy_discord = dependency('sleepy-discord', include_type: 'system')
+sleepy_discord = dependency('sleepy-discord', include_type: 'system', static: true)
 
 comp = meson.get_compiler('cpp')
 if comp.get_argument_syntax() == 'msvc'
