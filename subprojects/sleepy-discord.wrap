@@ -1,3 +1,6 @@
 [wrap-git]
 url = https://github.com/FRC1984/sleepy-discord
 revision = head
+
+[provide]
+sleepy-discord=cp_dep

@@ -38,6 +38,7 @@ cpr = dependency('cpr', include_type: 'system')
 websocketpp = dependency('websocketpp', include_type: 'system')
 asio = dependency('asio', include_type: 'system')
 opus = dependency('opus', include_type: 'system')
+sleepy_discord = dependency('sleepy-discord', include_type: 'system')
 
 comp = meson.get_compiler('cpp')
 if comp.get_argument_syntax() == 'msvc'
@@ -58,15 +59,10 @@ else
   )
 endif
 
-### Sleepy-Discord ###
-
-cp_proj = subproject('sleepy-discord')
-cp_dep = cp_proj.get_variable('cp_dep')
-
 ### Bot ###
 
 executable('bot',
   'src/main.cpp',
-  dependencies: [fmt, openssl, cpr, websocketpp, asio, opus, cp_dep],
+  dependencies: [fmt, openssl, cpr, websocketpp, asio, opus, sleepy_discord],
   install: true
 )
